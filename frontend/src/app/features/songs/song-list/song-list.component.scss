@@ -1,0 +1,35 @@
+.songs-page { padding: 8px 0; }
+
+.header-controls {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .tabs {
+    display: flex;
+    gap: 12px;
+
+    .tab-btn {
+      border-radius: 20px;
+    }
+  }
+
+  .search-field {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+.songs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.loading-center {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}

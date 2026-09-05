@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: music-buddy
+  datasource:
+    url: jdbc:h2:mem:musicbuddy;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+    show-sql: false
+  sql:
+    init:
+      mode: always
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=600s
+
+app:
+  jwt:
+    secret: 3d6f8b2e9a1c4f7d0e2b5a8c1f4e7a0d3b6c9f2e5a8d1c4f7a0e3b6d9c2f5a8
+    expiration-ms: 86400000
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.musicbuddy: INFO

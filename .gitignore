@@ -1,0 +1,33 @@
+# ===== Backend (Java / Maven) =====
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/.idea/
+backend/*.iml
+backend/HELP.md
+
+# ===== Frontend (Node / Angular) =====
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.sass-cache/
+frontend/connect.lock
+frontend/coverage/
+
+# ===== OS & IDE =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== Logs =====
+*.log
+logs/

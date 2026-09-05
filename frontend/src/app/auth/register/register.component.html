@@ -1,0 +1,52 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>🎵 Join Music Buddy</mat-card-title>
+      <mat-card-subtitle>Create your free account</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username">
+          <mat-icon matPrefix>person</mat-icon>
+          <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
+          <mat-error *ngIf="form.get('username')?.hasError('minlength')">Minimum 3 characters</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" formControlName="email">
+          <mat-icon matPrefix>email</mat-icon>
+          <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">Enter a valid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <mat-icon matPrefix>lock</mat-icon>
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+          <mat-error *ngIf="form.get('password')?.hasError('minlength')">Minimum 6 characters</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width submit-btn"
+                [disabled]="loading || form.invalid">
+          <mat-spinner diameter="20" *ngIf="loading" style="display:inline-block;"></mat-spinner>
+          <span *ngIf="!loading">Create Account</span>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions style="display: flex; justify-content: center;">
+      <p style="color:#aaa; margin:8px 0;">
+        Already have an account?
+        <a routerLink="/auth/login" style="color:#ce93d8; cursor:pointer;">Sign In</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>

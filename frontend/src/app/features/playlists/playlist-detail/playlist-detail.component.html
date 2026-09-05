@@ -1,0 +1,38 @@
+<div class="loading-center" *ngIf="loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>
+
+<ng-container *ngIf="!loading && playlist">
+  <div class="detail-header">
+    <button mat-icon-button routerLink="/playlists" style="color:#fff;">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h2>{{ playlist.name }}</h2>
+      <p class="subtitle">
+        {{ playlist.description || 'No description' }}
+        &bull; {{ playlist.songCount }} songs
+        &bull; by {{ playlist.ownerUsername }}
+      </p>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="playlist.songs.length === 0">
+    <mat-icon>music_off</mat-icon>
+    <h3>No songs in this playlist</h3>
+    <p>Browse songs and add them here using the <mat-icon style="vertical-align:middle;font-size:1rem;">playlist_add</mat-icon> button</p>
+  </div>
+
+  <mat-list *ngIf="playlist.songs.length > 0">
+    <mat-list-item *ngFor="let song of playlist.songs; let i = index">
+      <span matListItemMeta style="color:#888; min-width:32px;">{{ i + 1 }}</span>
+      <mat-icon matListItemIcon style="color:#ce93d8;">music_note</mat-icon>
+      <span matListItemTitle style="color:#fff;">{{ song.title }}</span>
+      <span matListItemLine style="color:#aaa;">{{ song.artistName }} &bull; {{ song.genre }}</span>
+      <button mat-icon-button color="warn" matTooltip="Remove from playlist"
+              (click)="removeSong(song.id)">
+        <mat-icon>remove_circle_outline</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</ng-container>

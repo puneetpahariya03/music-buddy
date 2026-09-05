@@ -1,0 +1,6 @@
+.songs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.loading-center { display: flex; justify-content: center; padding: 64px; }

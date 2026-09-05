@@ -1,0 +1,22 @@
+<h2 class="section-title">❤️ My Favorites</h2>
+
+<div class="loading-center" *ngIf="loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>
+
+<ng-container *ngIf="!loading">
+  <div class="empty-state" *ngIf="songs.length === 0">
+    <mat-icon>favorite_border</mat-icon>
+    <h3>No favorites yet</h3>
+    <p>Browse songs and click the ❤️ heart icon to save your favorites!</p>
+  </div>
+
+  <div class="songs-grid" *ngIf="songs.length > 0">
+    <app-song-card
+      *ngFor="let song of songs"
+      [song]="song"
+      [isLoggedIn]="true"
+      (favoriteToggled)="toggleFavorite($event)">
+    </app-song-card>
+  </div>
+</ng-container>

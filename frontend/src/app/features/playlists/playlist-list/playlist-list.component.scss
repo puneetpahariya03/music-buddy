@@ -1,0 +1,23 @@
+.playlists-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.playlist-card {
+  background: #1e1e1e !important;
+  border-radius: 12px !important;
+  cursor: pointer;
+  transition: transform 0.2s;
+  &:hover { transform: translateY(-4px); }
+}
+.pl-icon mat-icon { font-size: 48px; color: #ce93d8; width: 48px; height: 48px; display: block; margin-bottom: 8px; }
+h3 { color: #fff; margin-bottom: 4px; font-size: 1rem; }
+.pl-desc { color: #888; font-size: 0.8rem; margin-bottom: 4px; }
+.pl-count { color: #ce93d8; font-size: 0.85rem; }
+.loading-center { display: flex; justify-content: center; padding: 64px; }

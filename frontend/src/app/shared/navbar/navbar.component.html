@@ -1,0 +1,37 @@
+<mat-toolbar style="background:#1a1a2e; border-bottom:1px solid #2a2a4a; position:sticky; top:0; z-index:100;">
+  <a routerLink="/songs" style="text-decoration:none; color:#ce93d8; font-weight:700; font-size:1.2rem; cursor:pointer;">
+    🎵 Music Buddy
+  </a>
+  <span style="flex:1"></span>
+
+  <a mat-button routerLink="/songs" routerLinkActive="active-link" style="color:#ddd;">
+    <mat-icon>music_note</mat-icon> Songs
+  </a>
+  <a mat-button routerLink="/artists" routerLinkActive="active-link" style="color:#ddd;">
+    <mat-icon>person</mat-icon> Artists
+  </a>
+
+  <ng-container *ngIf="isLoggedIn$ | async">
+    <a mat-button routerLink="/playlists" routerLinkActive="active-link" style="color:#ddd;">
+      <mat-icon>queue_music</mat-icon> Playlists
+    </a>
+    <a mat-button routerLink="/favorites" routerLinkActive="active-link" style="color:#ddd;">
+      <mat-icon>favorite</mat-icon> Favorites
+    </a>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" style="color:#ddd; margin-left:8px;">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item disabled style="font-weight:500;">{{ username }}</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    </mat-menu>
+  </ng-container>
+
+  <ng-container *ngIf="!(isLoggedIn$ | async)">
+    <a mat-button routerLink="/auth/login" style="color:#ddd;">Login</a>
+    <a mat-raised-button color="accent" routerLink="/auth/register" style="margin-left:8px;">Sign Up</a>
+  </ng-container>
+</mat-toolbar>

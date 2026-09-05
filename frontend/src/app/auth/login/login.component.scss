@@ -1,0 +1,32 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+  background: #1e1e1e !important;
+  color: #fff !important;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.submit-btn {
+  height: 44px;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+mat-card-title {
+  color: #ce93d8 !important;
+  font-size: 1.5rem !important;
+}

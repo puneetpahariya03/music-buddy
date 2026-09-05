@@ -1,0 +1,36 @@
+<div class="playlists-header">
+  <h2 class="section-title" style="margin-bottom:0;">My Playlists</h2>
+  <button mat-raised-button color="primary" (click)="openCreate()">
+    <mat-icon>add</mat-icon> New Playlist
+  </button>
+</div>
+
+<div class="loading-center" *ngIf="loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>
+
+<ng-container *ngIf="!loading">
+  <div class="empty-state" *ngIf="playlists.length === 0">
+    <mat-icon>queue_music</mat-icon>
+    <h3>No playlists yet</h3>
+    <p>Create your first playlist to get started!</p>
+  </div>
+
+  <div class="playlists-grid" *ngIf="playlists.length > 0">
+    <mat-card class="playlist-card" *ngFor="let pl of playlists" (click)="open(pl.id)">
+      <mat-card-content>
+        <div class="pl-icon"><mat-icon>queue_music</mat-icon></div>
+        <h3>{{ pl.name }}</h3>
+        <p class="pl-desc">{{ pl.description || 'No description' }}</p>
+        <p class="pl-count">{{ pl.songCount }} songs</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button color="warn"
+                (click)="delete(pl, $event)"
+                matTooltip="Delete playlist">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-container>

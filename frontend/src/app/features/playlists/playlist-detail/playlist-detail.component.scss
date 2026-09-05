@@ -1,0 +1,10 @@
+.loading-center { display: flex; justify-content: center; padding: 64px; }
+.detail-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+h2 { color: #fff; font-size: 1.5rem; }
+.subtitle { color: #aaa; font-size: 0.9rem; margin-top: 4px; }
+mat-list { background: transparent !important; }
+mat-list-item {
+  background: #1e1e1e !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+}

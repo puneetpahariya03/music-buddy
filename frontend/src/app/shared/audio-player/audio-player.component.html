@@ -1,0 +1,28 @@
+<div class="player-bar" *ngIf="playerService.currentSong$ | async as song">
+  <div class="song-info">
+    <img [src]="song.albumCoverUrl" [alt]="song.title" class="thumb" *ngIf="song.albumCoverUrl">
+    <div class="text">
+      <div class="title">{{ song.title }}</div>
+      <div class="artist">{{ song.artistName }}</div>
+    </div>
+  </div>
+
+  <div class="controls-container">
+    <div class="buttons">
+      <button mat-icon-button (click)="playerService.togglePlay()" color="primary" class="play-btn">
+        <mat-icon>{{ (playerService.isPlaying$ | async) ? 'pause_circle' : 'play_circle' }}</mat-icon>
+      </button>
+    </div>
+    <div class="progress-bar">
+      <span>{{ formatTime((playerService.currentTime$ | async) || 0) }}</span>
+      <input type="range" min="0" [max]="(playerService.duration$ | async) || 30"
+             [value]="(playerService.currentTime$ | async) || 0"
+             (input)="onSeek($event)">
+      <span>{{ formatTime((playerService.duration$ | async) || 30) }}</span>
+    </div>
+  </div>
+
+  <div class="preview-badge">
+    <span class="badge">Live Cloud Stream</span>
+  </div>
+</div>

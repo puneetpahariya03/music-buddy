@@ -1,0 +1,62 @@
+/* Global dark theme styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Roboto, sans-serif;
+  background: #121212;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.genre-chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(103, 58, 183, 0.3);
+  color: #ce93d8;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 64px 16px;
+  color: #888;
+
+  mat-icon {
+    font-size: 72px;
+    height: 72px;
+    width: 72px;
+    opacity: 0.4;
+  }
+  h3 { margin-top: 16px; font-size: 1.25rem; color: #aaa; }
+  p  { margin-top: 8px; font-size: 0.9rem; }
+}
+
+.loading-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 64px;
+}
+
+/* Material overrides for dark theme */
+.mat-mdc-card { background: #1e1e1e !important; color: #fff !important; }
+.mat-mdc-form-field .mdc-floating-label { color: #aaa !important; }
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: rgba(255,255,255,0.3) !important;
+}
+.mat-mdc-input-element { color: #fff !important; }

@@ -1,0 +1,40 @@
+<mat-card class="song-card">
+  <div class="cover"
+       [style.background-image]="song.albumCoverUrl ? 'url(' + song.albumCoverUrl + ')' : 'none'">
+    <div class="cover-placeholder" *ngIf="!song.albumCoverUrl">
+      <mat-icon>music_note</mat-icon>
+    </div>
+    
+    <!-- Play Button Overlay -->
+    <button mat-mini-fab color="primary" class="play-overlay-btn" (click)="play()" title="Play Preview">
+      <mat-icon>{{ (playerService.currentSong$ | async)?.id === song.id && (playerService.isPlaying$ | async) ? 'pause' : 'play_arrow' }}</mat-icon>
+    </button>
+  </div>
+
+  <mat-card-content class="card-content">
+    <div class="song-title" [title]="song.title">{{ song.title }}</div>
+    <div class="song-artist">{{ song.artistName }}</div>
+    <div class="song-meta">
+      <span class="genre-chip" *ngIf="song.genre">{{ song.genre }}</span>
+      <span class="duration">{{ formatDuration(song.durationSeconds) }}</span>
+    </div>
+    <div class="album-name" *ngIf="song.albumTitle">{{ song.albumTitle }}</div>
+  </mat-card-content>
+
+  <mat-card-actions style="padding: 4px 8px; display: flex; justify-content: space-between;">
+    <button mat-icon-button color="primary" (click)="play()">
+      <mat-icon>{{ (playerService.currentSong$ | async)?.id === song.id && (playerService.isPlaying$ | async) ? 'pause_circle_filled' : 'play_circle_filled' }}</mat-icon>
+    </button>
+    <div *ngIf="isLoggedIn">
+      <button mat-icon-button
+              (click)="favoriteToggled.emit(song)"
+              [color]="song.favorited ? 'warn' : ''"
+              [title]="song.favorited ? 'Remove from favorites' : 'Add to favorites'">
+        <mat-icon>{{ song.favorited ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+      <button mat-icon-button (click)="addToPlaylist.emit(song)" title="Add to playlist">
+        <mat-icon>playlist_add</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,28 @@
+<h2 class="section-title">Artists</h2>
+
+<div class="loading-center" *ngIf="loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>
+
+<div class="artists-grid" *ngIf="!loading">
+  <mat-card class="artist-card" *ngFor="let artist of artists">
+    <div class="artist-avatar">
+      <img [src]="artist.imageUrl" [alt]="artist.name"
+           *ngIf="artist.imageUrl"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="avatar-placeholder">
+        <mat-icon>person</mat-icon>
+      </div>
+    </div>
+    <mat-card-content>
+      <h3>{{ artist.name }}</h3>
+      <p class="song-count">{{ artist.songCount }} songs</p>
+      <p class="bio" *ngIf="artist.bio">{{ artist.bio }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="empty-state" *ngIf="!loading && artists.length === 0">
+  <mat-icon>person_off</mat-icon>
+  <h3>No artists found</h3>
+</div>
