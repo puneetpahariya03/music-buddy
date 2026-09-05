@@ -1,31 +1,19 @@
 <div class="songs-page">
-  <!-- Tabs Header -->
+  <!-- Search Bar for Millions of Songs -->
   <div class="header-controls">
-    <div class="tabs">
-      <button mat-flat-button [color]="activeTab === 'explore' ? 'accent' : ''" 
-              (click)="switchTab('explore')" class="tab-btn">
-        <mat-icon>public</mat-icon> Explore Real Music (iTunes)
-      </button>
-      <button mat-flat-button [color]="activeTab === 'library' ? 'accent' : ''" 
-              (click)="switchTab('library')" class="tab-btn">
-        <mat-icon>library_music</mat-icon> Local Database
-      </button>
-    </div>
-
-    <!-- Search Bar -->
     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>{{ activeTab === 'explore' ? 'Search millions of songs on iTunes...' : 'Search local database...' }}</mat-label>
+      <mat-label>Search millions of Bollywood, Punjabi & International songs...</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput [ngModel]="searchQuery" (ngModelChange)="onSearch($event)" autocomplete="off">
+      <input matInput [ngModel]="searchQuery" (ngModelChange)="onSearch($event)" autocomplete="off" placeholder="e.g. Arijit Singh, Kesariya, Diljit, Drake...">
     </mat-form-field>
   </div>
 
-  <!-- Loading -->
+  <!-- Loading Spinner -->
   <div class="loading-center" *ngIf="loading">
     <mat-spinner diameter="48"></mat-spinner>
   </div>
 
-  <!-- Songs Grid -->
+  <!-- Live Songs Grid -->
   <ng-container *ngIf="!loading">
     <div class="songs-grid" *ngIf="songs.length > 0">
       <app-song-card
@@ -39,17 +27,8 @@
 
     <div class="empty-state" *ngIf="songs.length === 0">
       <mat-icon>music_off</mat-icon>
-      <h3>No tracks found</h3>
-      <p>Try searching for an artist like 'Taylor Swift', 'Coldplay', or 'Drake'</p>
+      <h3>No songs found</h3>
+      <p>Try searching for 'Arijit Singh', 'Tum Hi Ho', 'Pritam', or 'Taylor Swift'</p>
     </div>
-
-    <mat-paginator
-      *ngIf="activeTab === 'library' && totalElements > 0"
-      [length]="totalElements"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[6, 12, 24]"
-      (page)="onPageChange($event)"
-      style="background:transparent; color:#fff; margin-top:16px;">
-    </mat-paginator>
   </ng-container>
 </div>

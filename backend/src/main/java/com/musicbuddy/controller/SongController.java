@@ -3,6 +3,7 @@ package com.musicbuddy.controller;
 import com.musicbuddy.dto.request.SongRequest;
 import com.musicbuddy.dto.response.ApiResponse;
 import com.musicbuddy.dto.response.SongResponse;
+import com.musicbuddy.entity.User;
 import com.musicbuddy.repository.UserRepository;
 import com.musicbuddy.service.MusicDiscoveryService;
 import com.musicbuddy.service.SongService;
@@ -28,7 +29,7 @@ public class SongController {
 
     private Long currentUserId(UserDetails ud) {
         if (ud == null) return null;
-        return userRepository.findByUsername(ud.getUsername()).map(u -> u.getId()).orElse(null);
+        return userRepository.findByUsername(ud.getUsername()).map(User::getId).orElse(null);
     }
 
     @GetMapping
@@ -50,8 +51,15 @@ public class SongController {
 
     @GetMapping("/explore")
     public ResponseEntity<ApiResponse<List<SongResponse>>> exploreiTunes(
-            @RequestParam(defaultValue = "top hits") String query) {
+            @RequestParam(defaultValue = "bollywood hits") String query) {
         return ResponseEntity.ok(ApiResponse.success(musicDiscoveryService.searchExternalSongs(query)));
+    }
+
+    @GetMapping("/lyrics")
+    public ResponseEntity<ApiResponse<String>> getLyrics(
+            @RequestParam String artist,
+            @RequestParam String title) {
+        return ResponseEntity.ok(ApiResponse.success("Lyrics retrieved", musicDiscoveryService.getLyrics(artist, title)));
     }
 
     @GetMapping("/{id}")

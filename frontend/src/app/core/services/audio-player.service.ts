@@ -15,7 +15,7 @@ export class AudioPlayerService {
   private currentTimeSubject = new BehaviorSubject<number>(0);
   currentTime$ = this.currentTimeSubject.asObservable();
 
-  private durationSubject = new BehaviorSubject<number>(30);
+  private durationSubject = new BehaviorSubject<number>(0);
   duration$ = this.durationSubject.asObservable();
 
   constructor() {
@@ -41,35 +41,19 @@ export class AudioPlayerService {
       this.isPlayingSubject.next(false);
       this.currentTimeSubject.next(0);
     });
-
-    // Auto-resume if browser pauses due to temporary buffering/stalling
-    this.audio.addEventListener('waiting', () => {
-      console.log('Buffering audio stream...');
-    });
-
-    this.audio.addEventListener('canplay', () => {
-      if (this.isPlayingSubject.value && this.audio.paused) {
-        this.audio.play().catch(() => {});
-      }
-    });
-
-    this.audio.addEventListener('error', (e) => {
-      console.warn('Audio stream interrupted or stalled:', e);
-    });
   }
 
   playSong(song: Song): void {
-    if (!song.audioUrl) {
-      console.warn('No audio preview URL for song', song);
-      return;
-    }
+    if (!song.audioUrl) return;
 
+    // Toggle if same song
     if (this.currentSongSubject.value?.id === song.id && !this.audio.paused) {
       this.pause();
       return;
     }
 
     this.currentSongSubject.next(song);
+    this.durationSubject.next(song.durationSeconds || 180);
     this.audio.src = song.audioUrl;
     this.audio.load();
     this.audio.play().then(() => {
@@ -96,5 +80,9 @@ export class AudioPlayerService {
 
   seek(seconds: number): void {
     this.audio.currentTime = seconds;
+  }
+
+  getCurrentSong(): Song | null {
+    return this.currentSongSubject.value;
   }
 }

@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ApiResponse } from '../models';
-import { Artist } from '../models/artist.model';
+import { ApiResponse, Artist } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ArtistService {

@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { Song } from '../../../core/models/song.model';
 import { SongService } from '../../../core/services/song.service';
 import { FavoriteService } from '../../../core/services/favorite.service';
@@ -16,13 +15,9 @@ import { AddToPlaylistDialogComponent } from '../add-to-playlist-dialog/add-to-p
 })
 export class SongListComponent implements OnInit, OnDestroy {
   songs: Song[] = [];
-  totalElements = 0;
-  pageSize = 12;
-  currentPage = 0;
   loading = false;
   searchQuery = '';
   isLoggedIn = false;
-  activeTab: 'library' | 'explore' = 'explore'; // Default to iTunes Explore for real streaming
 
   private search$ = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -36,15 +31,18 @@ export class SongListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.authService.isLoggedIn$.subscribe(v => this.isLoggedIn = v);
-    this.fetchData();
+    this.authService.isLoggedIn$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(v => this.isLoggedIn = v);
+
+    this.searchSongs('bollywood hits');
 
     this.search$.pipe(
       debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe(() => {
-      this.currentPage = 0;
-      this.fetchData();
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(q => {
+      this.searchSongs(q.trim() || 'bollywood hits');
     });
   }
 
@@ -53,49 +51,22 @@ export class SongListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  switchTab(tab: 'library' | 'explore'): void {
-    this.activeTab = tab;
-    this.currentPage = 0;
-    this.fetchData();
-  }
-
-  fetchData(): void {
+  searchSongs(query: string): void {
     this.loading = true;
-    if (this.activeTab === 'explore') {
-      const q = this.searchQuery.trim() || 'top hits';
-      this.songService.exploreiTunes(q).subscribe({
-        next: res => {
-          this.songs = res.data;
-          this.totalElements = res.data.length;
-          this.loading = false;
-        },
-        error: () => { this.loading = false; }
-      });
-    } else {
-      const obs = this.searchQuery.trim()
-        ? this.songService.search(this.searchQuery, this.currentPage, this.pageSize)
-        : this.songService.getAll(this.currentPage, this.pageSize);
-
-      obs.subscribe({
-        next: res => {
-          this.songs = res.data.content;
-          this.totalElements = res.data.totalElements;
-          this.loading = false;
-        },
-        error: () => { this.loading = false; }
-      });
-    }
+    this.songService.exploreiTunes(query).subscribe({
+      next: res => {
+        this.songs = res.data;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
+    });
   }
 
   onSearch(query: string): void {
     this.searchQuery = query;
     this.search$.next(query);
-  }
-
-  onPageChange(event: PageEvent): void {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.fetchData();
   }
 
   toggleFavorite(song: Song): void {

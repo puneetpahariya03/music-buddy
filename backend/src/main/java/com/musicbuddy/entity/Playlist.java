@@ -26,15 +26,18 @@ public class Playlist {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "playlist_songs",
         joinColumns = @JoinColumn(name = "playlist_id"),
         inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> songs = new ArrayList<>();
 
+    @Builder.Default
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
     @Column(name = "is_public")
     private boolean isPublic = false;
 }

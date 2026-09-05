@@ -6,10 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { SongCardComponent } from './song-card/song-card.component';
-import { AudioPlayerComponent } from './audio-player/audio-player.component';
 
 @NgModule({
-  declarations: [SongCardComponent, AudioPlayerComponent],
+  declarations: [SongCardComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -20,7 +19,6 @@ import { AudioPlayerComponent } from './audio-player/audio-player.component';
   ],
   exports: [
     SongCardComponent,
-    AudioPlayerComponent,
     CommonModule,
     RouterModule,
     MatCardModule,

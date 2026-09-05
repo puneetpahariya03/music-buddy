@@ -2,6 +2,7 @@ package com.musicbuddy.controller;
 
 import com.musicbuddy.dto.response.ApiResponse;
 import com.musicbuddy.dto.response.SongResponse;
+import com.musicbuddy.entity.User;
 import com.musicbuddy.repository.UserRepository;
 import com.musicbuddy.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class FavoriteController {
     private final UserRepository userRepository;
 
     private Long userId(UserDetails ud) {
-        return userRepository.findByUsername(ud.getUsername()).map(u -> u.getId()).orElseThrow();
+        return userRepository.findByUsername(ud.getUsername()).map(User::getId).orElseThrow();
     }
 
     @GetMapping

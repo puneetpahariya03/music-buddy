@@ -28,4 +28,9 @@ export class SongService {
   getById(id: number): Observable<ApiResponse<Song>> {
     return this.http.get<ApiResponse<Song>>(`${this.base}/${id}`);
   }
+
+  getLyrics(artist: string, title: string): Observable<ApiResponse<string>> {
+    const params = new HttpParams().set('artist', artist).set('title', title);
+    return this.http.get<ApiResponse<string>>(`${this.base}/lyrics`, { params });
+  }
 }

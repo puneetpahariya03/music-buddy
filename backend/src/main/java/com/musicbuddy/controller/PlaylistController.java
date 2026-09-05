@@ -3,6 +3,7 @@ package com.musicbuddy.controller;
 import com.musicbuddy.dto.request.PlaylistRequest;
 import com.musicbuddy.dto.response.ApiResponse;
 import com.musicbuddy.dto.response.PlaylistResponse;
+import com.musicbuddy.entity.User;
 import com.musicbuddy.repository.UserRepository;
 import com.musicbuddy.service.PlaylistService;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ public class PlaylistController {
     private final UserRepository userRepository;
 
     private Long userId(UserDetails ud) {
-        return userRepository.findByUsername(ud.getUsername()).map(u -> u.getId()).orElseThrow();
+        return userRepository.findByUsername(ud.getUsername()).map(User::getId).orElseThrow();
     }
 
     @GetMapping

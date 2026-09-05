@@ -1,28 +1,60 @@
-<div class="player-bar" *ngIf="playerService.currentSong$ | async as song">
-  <div class="song-info">
+<div class="player-bar">
+  <!-- Song Metadata or Idle State -->
+  <div class="song-info" *ngIf="playerService.currentSong$ | async as song; else noSong">
     <img [src]="song.albumCoverUrl" [alt]="song.title" class="thumb" *ngIf="song.albumCoverUrl">
     <div class="text">
-      <div class="title">{{ song.title }}</div>
-      <div class="artist">{{ song.artistName }}</div>
+      <div class="title" [title]="song.title">{{ song.title }}</div>
+      <div class="artist" [title]="song.artistName">{{ song.artistName }}</div>
     </div>
   </div>
 
+  <ng-template #noSong>
+    <div class="song-info">
+      <div class="thumb placeholder-thumb">
+        <mat-icon style="color:#666; font-size: 28px; width:28px; height:28px;">music_note</mat-icon>
+      </div>
+      <div class="text">
+        <div class="title" style="color:#aaa;">No track selected</div>
+        <div class="artist" style="color:#666;">Click any play button to stream</div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Center Playback Controls & Live Seconds Timer -->
   <div class="controls-container">
     <div class="buttons">
       <button mat-icon-button (click)="playerService.togglePlay()" color="primary" class="play-btn">
         <mat-icon>{{ (playerService.isPlaying$ | async) ? 'pause_circle' : 'play_circle' }}</mat-icon>
       </button>
     </div>
+    
     <div class="progress-bar">
-      <span>{{ formatTime((playerService.currentTime$ | async) || 0) }}</span>
-      <input type="range" min="0" [max]="(playerService.duration$ | async) || 30"
+      <!-- Live Counting Seconds (e.g. 0:06) -->
+      <span class="time-label current-time">
+        {{ formatTime((playerService.currentTime$ | async) || 0) }}
+      </span>
+
+      <!-- Scrubber Slider -->
+      <input type="range" 
+             min="0" 
+             [max]="(playerService.duration$ | async) || 180"
              [value]="(playerService.currentTime$ | async) || 0"
              (input)="onSeek($event)">
-      <span>{{ formatTime((playerService.duration$ | async) || 30) }}</span>
+
+      <!-- Total Song Duration (e.g. 5:29) -->
+      <span class="time-label total-duration">
+        {{ formatTime((playerService.duration$ | async) || 180) }}
+      </span>
     </div>
   </div>
 
+  <!-- Badge / Lyrics Action -->
   <div class="preview-badge">
-    <span class="badge">Live Cloud Stream</span>
+    <button mat-stroked-button color="accent" class="lyrics-btn" (click)="openLyrics()" [disabled]="!(playerService.currentSong$ | async)">
+      <mat-icon style="font-size:18px; width:18px; height:18px; margin-right:4px;">mic</mat-icon> Lyrics
+    </button>
+    <span class="badge">
+      {{ (playerService.isPlaying$ | async) ? '▶ Live' : 'Ready' }}
+    </span>
   </div>
 </div>
